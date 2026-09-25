@@ -1,0 +1,24 @@
+{
+  "name": "minestress",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:controller": "npm run dev --workspace @minestress/controller",
+    "dev:worker": "npm run dev --workspace @minestress/worker",
+    "dev:dashboard": "npm run dev --workspace @minestress/dashboard",
+    "build": "npm run build --workspace @minestress/shared && npm run build --workspace @minestress/controller && npm run build --workspace @minestress/worker && npm run build --workspace @minestress/dashboard",
+    "typecheck": "npm run typecheck --workspace @minestress/shared && npm run typecheck --workspace @minestress/controller && npm run typecheck --workspace @minestress/worker && npm run typecheck --workspace @minestress/dashboard",
+    "test": "vitest run",
+    "lint": "echo 'No lint configured yet'"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.2"
+  }
+}

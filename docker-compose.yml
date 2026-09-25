@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: minestress-postgres
+    environment:
+      POSTGRES_DB: minestress
+      POSTGRES_USER: minestress
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: minestress-redis
+    ports:
+      - "6379:6379"
+
+  controller:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -lc "npm install && npm run dev:controller"
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+    depends_on:
+      - postgres
+      - redis
+
+  web:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -lc "npm install && npm run dev:dashboard"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - controller
+
+  worker:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -lc "npm install && npm run dev:worker"
+    environment:
+      CONTROLLER_URL: http://controller:4000
+      WORKER_PORT: 4100
+    depends_on:
+      - controller
+
+volumes:
+  postgres_data:
