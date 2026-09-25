@@ -1,5 +1,5 @@
 {
-  "name": "@minestress/worker",
+  "name": "@minestress/controller",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,10 +10,16 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "@minestress/api-types": "workspace:*",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.5",
     "@types/express": "^4.17.0",
+    "@types/ws": "^8.0.0",
     "typescript": "^5.5.4"
   }
 }
+
